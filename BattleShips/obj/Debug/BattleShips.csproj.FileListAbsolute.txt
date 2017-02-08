@@ -7,3 +7,12 @@ U:\BattleShips\BattleShips\BattleShips\obj\Debug\BattleShips.Properties.Resource
 U:\BattleShips\BattleShips\BattleShips\obj\Debug\BattleShips.csproj.GenerateResource.Cache
 U:\BattleShips\BattleShips\BattleShips\obj\Debug\BattleShips.exe
 U:\BattleShips\BattleShips\BattleShips\obj\Debug\BattleShips.pdb
+C:\Users\qronn\Desktop\University\Battle-Ships\BattleShips\bin\Debug\BattleShips.exe.config
+C:\Users\qronn\Desktop\University\Battle-Ships\BattleShips\obj\Debug\BattleShips.exe
+C:\Users\qronn\Desktop\University\Battle-Ships\BattleShips\obj\Debug\BattleShips.pdb
+C:\Users\qronn\Desktop\University\Battle-Ships\BattleShips\bin\Debug\BattleShips.exe
+C:\Users\qronn\Desktop\University\Battle-Ships\BattleShips\bin\Debug\BattleShips.pdb
+C:\Users\qronn\Desktop\University\Battle-Ships\BattleShips\obj\Debug\BattleShips.csprojResolveAssemblyReference.cache
+C:\Users\qronn\Desktop\University\Battle-Ships\BattleShips\obj\Debug\BattleShips.Form1.resources
+C:\Users\qronn\Desktop\University\Battle-Ships\BattleShips\obj\Debug\BattleShips.Properties.Resources.resources
+C:\Users\qronn\Desktop\University\Battle-Ships\BattleShips\obj\Debug\BattleShips.csproj.GenerateResource.Cache

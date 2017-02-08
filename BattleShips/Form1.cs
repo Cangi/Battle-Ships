@@ -12,6 +12,7 @@ namespace BattleShips
 {
     public partial class Form1 : Form
     {
+        #region variables
         private static int columns = 10;
         private static int rows = 10;
         private Button[,] buttonArray = new Button[rows, columns];
@@ -27,10 +28,11 @@ namespace BattleShips
         private bool move = true;
         private bool setup = true;
         private Random rnd = new Random();
-        private string destroyedPath = @"C:\Users\qronn\Desktop\University\Battle-Ships\BattleShips\bin\destroyed.png";
-        private string targetPath = @"C:\Users\qronn\Desktop\University\Battle-Ships\BattleShips\bin\target.png";
-
-
+        private string destroyedPath = @"bin\destroyed.png";
+        private string targetPath = @"bin\target.png";
+        private Point lastButtonPressed;
+        private bool firstClick = false;
+        #endregion
         public Form1()
         {
             InitializeComponent();
@@ -122,6 +124,7 @@ namespace BattleShips
 
         private void TestShoot() 
         {
+            Console.WriteLine("Da");
             int[] possibleMoves = new int[4];
             int i= rnd.Next(0,9);
             int j= rnd.Next(0,9);
@@ -156,6 +159,19 @@ namespace BattleShips
 
         }
 
+       private void debug()
+        {
+            for (int i = 0; i < 10; i++)
+            {
+                for (int z = 0; z < 10; z++)
+                {
+                    if (((dynamic)buttonArray[i, z].Tag).value != 0)
+                    {
+                        Console.WriteLine(((dynamic)buttonArray[i, z].Tag).value);
+                    }
+                }
+            }
+        }
         private void Form1_Load(object sender, EventArgs e)
         {
             int horizotal = 10;
@@ -181,7 +197,7 @@ namespace BattleShips
                     buttonArray[i, j] = new Button();
                     buttonArray[i, j].Size = new Size(52, 52);
                     buttonArray[i, j].Location = new Point(horizotal, vertical);
-                    buttonArray[i, j].Tag = new TagInfo { name = "boardButton", value = 0, state = true,row = i,col=j,setupUsed=false };
+                    buttonArray[i, j].Tag = new TagInfo { name = "boardButton", value = 0, state = true,row=i,col=j };
 
                     if ((j + 1) % 10 == 0)
                     {
@@ -222,28 +238,28 @@ namespace BattleShips
                     //Player
                     if (((dynamic)buttonArray[i, j].Tag).value == 51 && ((dynamic)buttonArray[i, j].Tag).hit == true && buttonArray[i, j].BackColor == Color.Red && ((dynamic)buttonArray[i, j].Tag).counted != true)
                     {
-                        shipsPlayer2[4]++;
+                        shipsPlayer1[4]++;
                         ((dynamic)buttonArray[i, j].Tag).counted = true;
                     }
                     if (((dynamic)buttonArray[i, j].Tag).value == 41 && ((dynamic)buttonArray[i, j].Tag).hit == true && buttonArray[i, j].BackColor == Color.Red && ((dynamic)buttonArray[i, j].Tag).counted != true)
                     {
-                        shipsPlayer2[3]++;
+                        shipsPlayer1[3]++;
                         ((dynamic)buttonArray[i, j].Tag).counted = true;
                     }
                     if (((dynamic)buttonArray[i, j].Tag).value == 32 && ((dynamic)buttonArray[i, j].Tag).hit == true && buttonArray[i, j].BackColor == Color.Red && ((dynamic)buttonArray[i, j].Tag).counted != true)
                     {
-                        shipsPlayer2[2]++;
+                        shipsPlayer1[2]++;
                         ((dynamic)buttonArray[i, j].Tag).counted = true;
                     }
                     if (((dynamic)buttonArray[i, j].Tag).value == 31 && ((dynamic)buttonArray[i, j].Tag).hit == true && buttonArray[i, j].BackColor == Color.Red && ((dynamic)buttonArray[i, j].Tag).counted != true)
                     {
-                        shipsPlayer2[1]++;
+                        shipsPlayer1[1]++;
                         ((dynamic)buttonArray[i, j].Tag).counted = true;
                     }
                     if (((dynamic)buttonArray[i, j].Tag).value == 21 && ((dynamic)buttonArray[i, j].Tag).hit == true && buttonArray[i, j].BackColor == Color.Red && ((dynamic)buttonArray[i, j].Tag).counted != true)
                     {
-                        shipsPlayer2[0]++;
-                        ((dynamic)buttonArrayEnemy[i, j].Tag).counted = true;
+                        shipsPlayer1[0]++;
+                        ((dynamic)buttonArray[i, j].Tag).counted = true;
                     }
                     //Enemy
                     if (((dynamic)buttonArrayEnemy[i, j].Tag).value == 51 && ((dynamic)buttonArrayEnemy[i, j].Tag).hit == true && buttonArrayEnemy[i, j].BackColor == Color.Red && ((dynamic)buttonArrayEnemy[i, j].Tag).counted != true)
@@ -273,7 +289,7 @@ namespace BattleShips
                     }
                 }
             }
-
+            //Player2
             if (shipsPlayer2[4] == 5)
             {
 
@@ -287,7 +303,6 @@ namespace BattleShips
             }
             if (shipsPlayer2[3] == 4)
             {
-                Console.WriteLine("Pidaras41");
                 for (int i = 0; i < 10; i++)
                 {
                     for (int j = 0; j < 10; j++)
@@ -331,22 +346,166 @@ namespace BattleShips
                     }
                 }
             }
+            //Player 1
+            if (shipsPlayer1[4] == 5)
+            {
+
+                for (int i = 0; i < 10; i++)
+                {
+                    for (int j = 0; j < 10; j++)
+                    {
+                        if (((dynamic)buttonArray[i, j].Tag).value == 51) buttonArray[i, j].Image = Image.FromFile(destroyedPath);
+                    }
+                }
+            }
+            if (shipsPlayer1[3] == 4)
+            {
+
+                for (int i = 0; i < 10; i++)
+                {
+                    for (int j = 0; j < 10; j++)
+                    {
+                        if (((dynamic)buttonArray[i, j].Tag).value == 41) buttonArray[i, j].Image = Image.FromFile(destroyedPath);
+                    }
+                }
+            }
+            if (shipsPlayer1[2] == 3)
+            {
+                Console.WriteLine("Morti mati");
+                for (int i = 0; i < 10; i++)
+                {
+                    for (int j = 0; j < 10; j++)
+                    {
+                        if (((dynamic)buttonArray[i, j].Tag).value == 32) buttonArray[i, j].Image = Image.FromFile(destroyedPath);
+                    }
+                }
+            }
+            if (shipsPlayer1[1] == 3)
+            {
+
+                for (int i = 0; i < 10; i++)
+                {
+                    for (int j = 0; j < 10; j++)
+                    {
+                        if (((dynamic)buttonArray[i, j].Tag).value == 31) buttonArray[i, j].Image = Image.FromFile(destroyedPath);
+                    }
+                }
+            }
+            if (shipsPlayer1[0] == 2)
+            {
+
+                for (int i = 0; i < 10; i++)
+                {
+                    for (int j = 0; j < 10; j++)
+                    {
+                        if (((dynamic)buttonArray[i, j].Tag).value == 21) buttonArray[i, j].Image = Image.FromFile(destroyedPath);
+                    }
+                }
+            }
         }
 
         private void playerShips(int iStart,int jStart,int iEnd,int jEnd,int shipValue)
-        { 
+        {
+            int changeValue=0;
+            if(iStart>iEnd)
+            {
+                changeValue = iEnd;
+                iEnd = iStart;
+                iStart = changeValue;
+                changeValue = 0;
+            }
+            if (jStart > jEnd)
+            {
+                changeValue = jEnd;
+                jEnd = jStart;
+                jStart = changeValue;
+                changeValue = 0;
+            }
+
+            int secondShipsNeeded = 0;
             if(iStart==iEnd)
                 for(int j = jStart; j <= jEnd; j++)
                 {
-                    buttonArray[iStart, j].BackColor = Color.Black;
-                    ((dynamic)buttonArray[iStart,j].Tag).value = 1;
+                    Console.WriteLine(secondShipsNeeded);
+                    switch(shipValue)
+                    {
+                        case 5:
+                            buttonArray[iStart, j].BackColor = Color.Black;
+                            ((dynamic)buttonArray[iStart, j].Tag).value = 51;
+                            break;
+                        case 4:
+                            buttonArray[iStart, j].BackColor = Color.Black;
+                            ((dynamic)buttonArray[iStart, j].Tag).value = 41;
+                            break;
+                        case 3:
+                            for (int i = 0; i < 10; i++)
+                            {
+                                for (int z = 0; z < 10; z++)
+                                {
+                                    if (((dynamic)buttonArray[i, z].Tag).value == 31 && j==0)
+                                    {
+                                        secondShipsNeeded++;
+                                    }
+                                }
+                            }
+                            if (secondShipsNeeded == 3)
+                            {
+                                buttonArray[iStart, j].BackColor = Color.Black;
+                                ((dynamic)buttonArray[iStart, j].Tag).value = 32;
+                            }
+                            else
+                            {
+                                buttonArray[iStart, j].BackColor = Color.Black;
+                                ((dynamic)buttonArray[iStart, j].Tag).value = 31;
+                            }
+                            break;
+                        case 2:
+                            buttonArray[iStart, j].BackColor = Color.Black;
+                            ((dynamic)buttonArray[iStart, j].Tag).value = 21;
+                            break;
+                    }
+                    secondShipsNeeded = 0;                   
                 }
             if(jStart == jEnd)
             {
                 for (int i = iStart; i <= iEnd; i++)
                 {
                     buttonArray[i, jStart].BackColor = Color.Black;
-                    ((dynamic)buttonArray[i,jStart].Tag).value = 1;
+                    switch (shipValue)
+                    {
+                        case 5:
+                            ((dynamic)buttonArray[i, jStart].Tag).value = 51;
+                            break;
+                        case 4:
+                            ((dynamic)buttonArray[i, jStart].Tag).value = 41;
+                            break;
+                        case 3:
+                            for (int j = 0; j < 10; j++)
+                            {
+                                for (int z = 0; z < 10; z++)
+                                {
+                                    if (((dynamic)buttonArray[j, z].Tag).value == 31 && i==0)
+                                    {
+                                        secondShipsNeeded++;
+                                    }
+                                }
+                            }
+                            if (secondShipsNeeded == 3)
+                            {
+                                buttonArray[i, jStart].BackColor = Color.Black;
+                                ((dynamic)buttonArray[i, jStart].Tag).value = 32;
+                            }
+                            else
+                            {
+                                buttonArray[i, jStart].BackColor = Color.Black;
+                                ((dynamic)buttonArray[i, jStart].Tag).value = 31;
+                            }
+                            break;
+                        case 2:
+                            ((dynamic)buttonArray[i, jStart].Tag).value = 21;
+                            break;
+                    }
+                    secondShipsNeeded = 0;
                 }
             }
         }
@@ -402,6 +561,7 @@ namespace BattleShips
                         }
                     turn = rnd.Next(1, 3);
                     Console.WriteLine(turn);
+                    debug();
                 }
             if (((dynamic)current.Tag).name.Equals("ShootButton") && ((dynamic)current.Tag).state==true)
             {
@@ -413,22 +573,22 @@ namespace BattleShips
                         if(turn==1)
                         {
                             if (((dynamic)buttonArrayEnemy[i, j].Tag).state == false && ((dynamic)buttonArrayEnemy[i, j].Tag).hit == false)
-                        {
-                            if (((dynamic)buttonArrayEnemy[i, j].Tag).value == 0)
                             {
-                                buttonArrayEnemy[i, j].BackColor = Color.Gray;
-                                ((dynamic)buttonArrayEnemy[i, j].Tag).hit = true;
-                            }
-                            else if (((dynamic)buttonArrayEnemy[i, j].Tag).value != 0)
-                            {
-                                buttonArrayEnemy[i, j].BackColor = Color.Red;
-                                Console.WriteLine(((dynamic)buttonArrayEnemy[i, j].Tag).value);
-                                ((dynamic)buttonArrayEnemy[i, j].Tag).hit = true;
-                                shoot = true;
+                                if (((dynamic)buttonArrayEnemy[i, j].Tag).value == 0)
+                                {
+                                    buttonArrayEnemy[i, j].BackColor = Color.Gray;
+                                    ((dynamic)buttonArrayEnemy[i, j].Tag).hit = true;
+                                }
+                                else if (((dynamic)buttonArrayEnemy[i, j].Tag).value != 0)
+                                {
+                                    buttonArrayEnemy[i, j].BackColor = Color.Red;
+                                    Console.WriteLine(((dynamic)buttonArrayEnemy[i, j].Tag).value);
+                                    ((dynamic)buttonArrayEnemy[i, j].Tag).hit = true;
+                                    shoot = true;
                             
+                                }
                             }
                         }
-                    }
                         else
                         {
                             if (((dynamic)buttonArray[i, j].Tag).state == false && ((dynamic)buttonArray[i, j].Tag).hit == false)
@@ -445,6 +605,7 @@ namespace BattleShips
                                     shoot = true;
                                 }
                             }
+                         
                         }
                     }
                 }
@@ -470,31 +631,46 @@ namespace BattleShips
                    else move = false;
                }
             
-            if (setup == true && numberOfPlayers == 2)
+           /* if (setup == true && numberOfPlayers == 2)
                {
                    if (((dynamic)current.Tag).name.Equals("boardButton") || ((dynamic)current.Tag).name.Equals("boardButtonEnemy"))
                    {
+                    
+                    //if (iStart - ((dynamic)current.Tag).row == 0) playerShips(iStart, jStart, ((dynamic)current.Tag).row, ((dynamic)current.Tag).col, Math.Abs(((dynamic)current.Tag).col - jStart));
+                    //if (iStart - ((dynamic)current.Tag).row == 0) playerShips(iStart, jStart, ((dynamic)current.Tag).row, ((dynamic)current.Tag).col, Math.Abs(((dynamic)current.Tag).row-iStart));
                     int iStart = ((dynamic)current.Tag).row;
                     int jStart = ((dynamic)current.Tag).col;
-                    if (iStart - ((dynamic)current.Tag).row == 0) playerShips(iStart, jStart, ((dynamic)current.Tag).row, ((dynamic)current.Tag).col, Math.Abs(((dynamic)current.Tag).col - jStart));
-                    if (iStart - ((dynamic)current.Tag).row == 0) playerShips(iStart, jStart, ((dynamic)current.Tag).row, ((dynamic)current.Tag).col, Math.Abs(((dynamic)current.Tag).row-iStart));
                 }
-                }
-                else if (setup == true && numberOfPlayers == 1)
+                }*/
+            if (setup == true && numberOfPlayers == 2)
+            {
+
+                if (((dynamic)current.Tag).name.Equals("boardButton"))
                 {
-                    if (((dynamic)current.Tag).name.Equals("boardButton") )
+                    if (firstClick == false)
                     {
-                    ((dynamic)current.Tag).setupUsed = true;
+                        lastButtonPressed = new Point(((dynamic)current.Tag).row, ((dynamic)current.Tag).col);
+                        firstClick = true;
+                        return;
                     }
-                for (int i = 0; i < 10; i++)
-                {
-                    for (int j = 0; j < 10; j++)
+                    if (firstClick == true)
                     {
-                        if (((dynamic)buttonArray[i, j].Tag).setupUsed == true) ;//to compleate
+                        
+                        if((Math.Abs(lastButtonPressed.X) - Math.Abs(((dynamic)current.Tag).row))==0)
+                        {
+                        if (lastButtonPressed.X>((dynamic)current.Tag).row) playerShips(((dynamic)current.Tag).row, ((dynamic)current.Tag).col, lastButtonPressed.X, lastButtonPressed.Y, Math.Abs(((dynamic)current.Tag).col - lastButtonPressed.Y)+1);
+                        else playerShips(lastButtonPressed.X, lastButtonPressed.Y, ((dynamic)current.Tag).row, ((dynamic)current.Tag).col, Math.Abs(((dynamic)current.Tag).col - lastButtonPressed.Y) + 1);
+                        }
+                        else if ((Math.Abs(lastButtonPressed.Y) - Math.Abs(((dynamic)current.Tag).col)) == 0)
+                        {
+                            if (lastButtonPressed.Y > ((dynamic)current.Tag).col) playerShips(((dynamic)current.Tag).row, ((dynamic)current.Tag).col, lastButtonPressed.X, lastButtonPressed.Y, Math.Abs(((dynamic)current.Tag).row - lastButtonPressed.X) + 1);
+                            else playerShips(lastButtonPressed.X, lastButtonPressed.Y, ((dynamic)current.Tag).row, ((dynamic)current.Tag).col, Math.Abs(((dynamic)current.Tag).row - lastButtonPressed.X) + 1);
+                        }
+                        firstClick = false;
                     }
                 }
-                    }
-      
+            }
+                    
                 if (winner1) Console.WriteLine("Player 1 won");
                     else if (winner2) Console.WriteLine("Player 2 won");
             }
@@ -509,7 +685,6 @@ namespace BattleShips
             public bool counted;
             public int row;
             public int col;
-            public bool setupUsed;
         }
     }
 
